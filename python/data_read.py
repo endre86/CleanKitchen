@@ -2,6 +2,8 @@ import serial
 import sys
 import time
 
+from serial import SerialException
+
 
 class CsvSerialReader:
     """
@@ -77,7 +79,7 @@ class CsvSerialReader:
                 if max_read_time > 0 and (time.time() - start) > max_read_time:
                     break
 
-                read_data = self.serial.readline()
+                read_data = self._serial.readline()
                 
                 if len(read_data) == 0:
                     break
