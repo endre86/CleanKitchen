@@ -66,9 +66,7 @@ class CsvSerialReader:
                 read_data_tuple = self._transform_read_data(read_data)
 
                 result.append(read_data_tuple) 
-        except KeyboardInterrupt:
-            raise
-        except Exception as ex:
+        except (SerialException, TypeError, ValueError) as ex:
             print("Caught and supressing exception:", ex)
         
         return result
