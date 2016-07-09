@@ -79,6 +79,3 @@ class CsvSerialReader:
             read_data = read_data.decode(self._byte_encoding)
 
         return tuple(filter(None, read_data.replace('\r\n', '').split(',')))
-
-if __name__ == '__main__':
-    r = CsvSerialReader('COM4')
