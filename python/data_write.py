@@ -49,23 +49,26 @@ class FileCsvDataWriter:
             TypeError if csv_data is not of type str or tuple
             Errors from file.
         """
-        if type(tuple_data) == tuple:
-            str_data = str(tuple_data)
-        elif type(tuple_data) == str:
-            str_data = tuple_data
+        if type(csv_data) == tuple:
+            str_data = str(csv_data)
+        elif type(csv_data) == str:
+            str_data = csv_data
         else:
-            raise TypeError('Only accepting tuple_data as str or tuple')
+            raise TypeError('Only accepting csv_data as str or tuple')
 
         if self._file_writer.closed:
             self._open_file_writer()
         
-        self._file_writer.println(str_data)
+        self._file_writer.writelines(str_data)
 
     def _open_file_writer(self):
-        if self._path[-1] != os.pathsep:
-            self._path = self._path + os.pathsep
+        if self._path[-1] != os.sep:
+            self._path = self._path + os.sep
+
+        if not os.path.exists(self._path):
+            os.makedirs(self._path)
         
-        file = self._path + str(date.today()) + '.csv'
+        file = os.path.join(self._path, str(date.today()) + '.csv')
         self._file_writer = open(file=file, mode='a', encoding='utf-8')
 
     def _close_file(self):
