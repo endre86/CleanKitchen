@@ -8,8 +8,13 @@ class CsvSerialReader:
     Expecting each line to be some comma seperated values, where
     the first value is a millisecond timestamp.
 
+    Example input from serial port:
+            '32,31,32,54,12/r/n'
+    Outputs:
+        [('32','31','32','54','12')]
+
     Both bytes and str is accepted values from serial device.
-    (So we can use the same code on Windows and Linux with Arduino-)
+    (So we can use the same code on Windows and Linux with Arduino.)
     """
 
     def __init__(self, port, baudrate=9600, timeout=2, byte_encoding='utf-8'):
