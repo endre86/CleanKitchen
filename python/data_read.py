@@ -50,7 +50,7 @@ class CsvSerialReader:
 
         try:
             while True:
-                if max_read_time > 0 and time.time() - start > max_read_time:
+                if max_read_time > 0 and (time.time() - start) > max_read_time:
                     break
 
                 read_data = self.serial.readline()
