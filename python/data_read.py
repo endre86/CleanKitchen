@@ -1,4 +1,5 @@
 import serial
+import sys
 import time
 
 
@@ -30,13 +31,18 @@ class CsvSerialReader:
             If serial device values are returned as bytes,
             the byte_encoding will be used to decode the values.
         """
-        self.serial = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
+        self._port = port
+        self._baudrate = baudrate
+        self._timeout = timeout
         self._byte_encoding = byte_encoding
+
+        self._serial = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
+        
 
     def __enter__(self):
         return self
     
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self._close_serial()
 
     def __del__(self):
@@ -63,6 +69,9 @@ class CsvSerialReader:
         read_data = ""
         read_data_tuple = ()
 
+        if not self._serial.isOpen():
+            self._serial.open()
+
         try:
             while True:
                 if max_read_time > 0 and (time.time() - start) > max_read_time:
@@ -77,6 +86,7 @@ class CsvSerialReader:
 
                 result.append(read_data_tuple) 
         except (SerialException, TypeError, ValueError) as ex:
+            # We want to be able to "skip" or later recover these errors
             print("Caught and supressing exception:", ex)
         
         return result
