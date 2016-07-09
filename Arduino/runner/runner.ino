@@ -5,7 +5,7 @@
 // a4      : Dishwasher sensor
 // 
 // Output: "millis, a0, a1, a2, a3, a4"
-// (millis: // https://www.arduino.cc/en/Reference/Millis)
+// (millis: https://www.arduino.cc/en/Reference/Millis)
 /////////////////////////////////////////////////////////////
 
 int a0;
