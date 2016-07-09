@@ -77,7 +77,7 @@ class CsvSerialReader:
         """
         Flushed the Serial readers input buffer
         """
-        self._serial_reader.flushInput()
+        self._serial.flushInput()
 
     def _transform_read_data(self, read_data):
         if type(read_data) == bytes:
