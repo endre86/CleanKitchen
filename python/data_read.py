@@ -33,6 +33,16 @@ class CsvSerialReader:
         self.serial = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self._byte_encoding = byte_encoding
 
+    def __enter__(self):
+        return self
+    
+    def __exit__(self):
+        self._close_serial();
+
+    def __del__(self):
+        self._close_serial
+    
+
     def read(self, max_read_time=-1):
         """
         Returns list of read values up to a specific time length or
@@ -77,8 +87,15 @@ class CsvSerialReader:
         """
         self._serial.flushInput()
 
+
     def _transform_read_data(self, read_data):
         if type(read_data) == bytes:
             read_data = read_data.decode(self._byte_encoding)
 
         return tuple(filter(None, read_data.replace('\r\n', '').split(',')))
+
+    def _close_serial(self):
+        try:
+            self._serial.close()
+        except:
+            print("Unexpected error:", sys.exc_info()[0])
