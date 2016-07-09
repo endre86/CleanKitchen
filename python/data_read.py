@@ -37,10 +37,10 @@ class CsvSerialReader:
         return self
     
     def __exit__(self):
-        self._close_serial();
+        self._close_serial()
 
     def __del__(self):
-        self._close_serial
+        self._close_serial()
     
 
     def read(self, max_read_time=-1):
@@ -96,6 +96,7 @@ class CsvSerialReader:
 
     def _close_serial(self):
         try:
-            self._serial.close()
+            if self._serial.isOpen():
+                self._serial.close()
         except:
             print("Unexpected error:", sys.exc_info()[0])
