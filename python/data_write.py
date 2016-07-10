@@ -7,18 +7,19 @@ from datetime import date
 
 class FileCsvDataWriter:
     """
-    Used to write CSV data to a file. The file is
-    automatically named as todays date and given
-    the type csv.
+    Used to write CSV data to a file. The file name defaults is
+    to automatically named as todays date and given the type csv.
     """
-    def __init__(self, path):
+    def __init__(self, path, file_name = None):
         """
         path:
             Path to file, a new file is created if no file
             matches path/todaysdate.csv.
+        file_name:
+            Optional file name, defaults to todays date if None
+            is given.
         """
-        self._path = path
-
+        self._initialize_file_path(path, file_name)
         self._open_file_writer()
 
     def __enter__(self):
@@ -61,15 +62,20 @@ class FileCsvDataWriter:
         
         self._file_writer.writelines(str_data)
 
-    def _open_file_writer(self):
-        if self._path[-1] != os.sep:
-            self._path = self._path + os.sep
+    def _initialize_file_path(self, path, file_name):
+        if path[-1] != os.sep:
+            path = path + os.sep
 
-        if not os.path.exists(self._path):
-            os.makedirs(self._path)
-        
-        file = os.path.join(self._path, str(date.today()) + '.csv')
-        self._file_writer = open(file=file, mode='a', encoding='utf-8')
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        if file_name == None:
+            file_name = str(date.today()) + '.csv'
+
+        self._file_path = os.path.join(path, file_name)
+
+    def _open_file_writer(self):      
+        self._file_writer = open(file=self._file_path, mode='a', encoding='utf-8')
 
     def _close_file(self):
         try:
