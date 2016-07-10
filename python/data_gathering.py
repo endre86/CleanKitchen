@@ -1,5 +1,9 @@
+
+from datetime import datetime
+
 from data_read import CsvSerialReader
 from data_write import FileCsvDataWriter
+
 
 def run(port, path, timeout, max_read_time):
     """
@@ -16,21 +20,36 @@ def run(port, path, timeout, max_read_time):
     """
     _print_info()
 
-    with CsvSerialReader(port, timeout=timeout) as reader \
+    with CsvSerialReader(port, timeout=timeout) as reader, \
          FileCsvDataWriter(path) as writer:
 
         label = 'na' 
-         while True:
+        while True:
             curr_label = input('Enter label (empty to use previous)')
-            if(len(curr_label) > 0)
+            if(len(curr_label) > 0):
                 label = curr_label
 
-            _record_read(reader, writer, max_read_time, label)
+            _record_read(reader, writer, max_read_time, str(datetime.now()), label)
 
 
-def _record_read(reader, writer, max_read_time, label):
+def preprocess_data(data, identifier, label):
+    """
+    Used to preprocess read data before storing.
+
+    data:
+        Read data.
+    identifier:
+        The unique identifier used to identify data sets
+    label:
+        Label  
+    """
+    return ([identifier]) + data + ([label]) 
+
+
+def _record_read(reader, writer, max_read_time, identifier, label):
     read_data = reader.read(max_read_time)
-    writer.write()
+    read_data_processed = preprocess_data(read_data, str(datetime.now()), label)
+    writer.write(read_data_processed)
 
 def _print_info():
     print('Starting data gathering.')
