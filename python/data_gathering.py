@@ -25,7 +25,7 @@ def run(port, path, timeout, max_read_time):
     with CsvSerialReader(port, timeout=timeout) as reader, \
          FileCsvDataWriter(path) as writer:
 
-        label = 'na' 
+        label = 'NA'
         while True:
             curr_label = input('Enter label (empty to use previous)')
             if(len(curr_label) > 0):
@@ -36,7 +36,8 @@ def run(port, path, timeout, max_read_time):
 
 def add_metadata(identifier, label, data):
     """
-    Used to add identifier and label to data tuple
+    Used to add identifier and label to data tuple.
+    Label is always cast to str and uppercased.
 
     data:
         Read data.
@@ -45,6 +46,7 @@ def add_metadata(identifier, label, data):
     label:
         Label  
     """
+    label = str(label).upper()
     return (identifier,) + data + (label,) 
 
 def _record_read(reader, writer, max_read_time, identifier, label):
