@@ -1,4 +1,6 @@
 
+import functools
+
 from datetime import datetime
 
 from data_read import CsvSerialReader
@@ -32,9 +34,9 @@ def run(port, path, timeout, max_read_time):
             _record_read(reader, writer, max_read_time, str(datetime.now()), label)
 
 
-def preprocess_data(data, identifier, label):
+def add_metadata(identifier, label, data):
     """
-    Used to preprocess read data before storing.
+    Used to add identifier and label to data tuple
 
     data:
         Read data.
@@ -43,13 +45,13 @@ def preprocess_data(data, identifier, label):
     label:
         Label  
     """
-    return ([identifier]) + data + ([label]) 
-
+    return (identifier,) + data + (label,) 
 
 def _record_read(reader, writer, max_read_time, identifier, label):
     read_data = reader.read(max_read_time)
-    read_data_processed = preprocess_data(read_data, str(datetime.now()), label)
-    writer.write(read_data_processed)
+    process = functools.partial(add_metadata, identifier, label)
+    read_data = map(process, read_data)
+    writer.write_csv_lines(read_data)
 
 def _print_info():
     print('Starting data gathering.')
