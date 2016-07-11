@@ -1,5 +1,6 @@
 
 import functools
+import sys
 
 from datetime import datetime
 
@@ -28,11 +29,14 @@ def run(port, path, timeout, max_read_time):
         label = 'NA'
         while True:
             curr_label = input('Enter label (empty to use previous)')
+
+            if curr_label == 'exit':
+                break # exit 
+
             if(len(curr_label) > 0):
                 label = curr_label
 
             _record_read(reader, writer, max_read_time, str(datetime.now()), label)
-
 
 def add_metadata(identifier, label, data):
     """
@@ -61,4 +65,4 @@ def _print_info():
     print('each row of data to identify and group reads.')
     print('In addition, before each read, you will be asked to input some lable')
     print('to label the dataset with (ie: "knif").')
-    print('Exit using keyboard interruption (ctrl+z).')
+    print('Exit writing "exit" (in lower case) as label.')
