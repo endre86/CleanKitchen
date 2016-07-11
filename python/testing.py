@@ -33,8 +33,8 @@ def test_data_gathering():
 
 if __name__ == '__main__':
     print('START')
-    test_reading_and_writing()
-    # test_data_gathering()
+    # test_reading_and_writing()
+    test_data_gathering()
     print('EXIT')
 else:
     raise SystemExit('testing.py is only a scriptfile used for testing purposes')
