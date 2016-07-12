@@ -51,7 +51,7 @@ def add_metadata(identifier, label, data):
         Label  
     """
     label = str(label).upper()
-    return (identifier,) + data + (label,) 
+    return [identifier, label] + data 
 
 def _record_read(reader, writer, max_read_time, identifier, label):
     read_data = reader.read(max_read_time)

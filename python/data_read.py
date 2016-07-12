@@ -14,7 +14,7 @@ class CsvSerialReader:
     Example input from serial port:
             '32,31,32,54,12/r/n'
     Outputs:
-        [('32','31','32','54','12')]
+        [['32','31','32','54','12']]
 
     Both bytes and str is accepted values from serial device.
     (So we can use the same code on Windows and Linux with Arduino.)
@@ -62,7 +62,7 @@ class CsvSerialReader:
             to ignore this feature.
 
         returns:
-            List of tuples of read data where each tuple value is
+            List of lists of read data where each tuple value is
             an comma seperated value.
         """
         result = []
@@ -84,9 +84,9 @@ class CsvSerialReader:
                 if len(read_data) == 0:
                     break
                 
-                read_data_tuple = self._transform_read_data(read_data)
+                read_data = self._transform_read_data(read_data)
 
-                result.append(read_data_tuple) 
+                result.append(read_data) 
         except (SerialException, TypeError, ValueError) as ex:
             # We want to be able to "skip" or later recover these errors
             print("Caught and supressing exception:", ex)
@@ -104,7 +104,8 @@ class CsvSerialReader:
         if type(read_data) == bytes:
             read_data = read_data.decode(self._byte_encoding)
 
-        return tuple(filter(None, read_data.replace('\r\n', '').split(',')))
+        return [x for x in read_data.replace('\r\n', '').split(',')]
+        #return tuple(filter(None, read_data.replace('\r\n', '').split(',')))
 
     def _close_serial(self):
         try:

@@ -50,7 +50,7 @@ class FileCsvDataWriter:
             TypeError if csv_data is not of type str or tuple
             Errors from file.
         """
-        if type(csv_data) == tuple:
+        if type(csv_data) == list:
             str_data = str(csv_data)
         elif type(csv_data) == str:
             str_data = csv_data
