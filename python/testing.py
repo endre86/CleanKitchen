@@ -9,7 +9,7 @@ from data_write import FileCsvDataWriter
 
 ###########################################
 
-port = 'COM4'	            # port to listen to
+port = 'COM4'	            # port to listen to (wrk: COM4, priv: COM3, rpi: /dev/ttyUSB0)
 timeout = 2                 # empty data read timeout
 read_timeout = 3            # non-empty data read timeout 
 path = os.path.join(        # path to test data

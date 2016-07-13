@@ -51,7 +51,7 @@ class FileCsvDataWriter:
             Errors from file.
         """
         if type(csv_data) == list:
-            str_data = str(csv_data)
+            str_data = ','.join(csv_data)
         elif type(csv_data) == str:
             str_data = csv_data
         else:
@@ -60,7 +60,7 @@ class FileCsvDataWriter:
         if self._file_writer.closed:
             self._open_file_writer()
         
-        self._file_writer.writelines(str_data)
+        self._file_writer.writelines(str_data + '\n')
 
     def _initialize_file_path(self, path, file_name):
         if path[-1] != os.sep:
