@@ -29,6 +29,12 @@ def test_reading_and_writing(execution_time_seconds = 10):
             writer.write_csv_lines(read_values)
 
 def test_data_gathering():
+    # def identifier_generator():
+    #     i = 0
+    #     while True:
+    #         yield i
+    #         i = i + 1
+
     data_gathering.run(port, path, timeout, read_timeout)
 
 if __name__ == '__main__':
