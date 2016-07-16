@@ -37,3 +37,4 @@ def split_data_based_on_readings(raw_data):
         else:
             result[x[0]] = [x]
     return result
+
