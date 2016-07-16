@@ -1,6 +1,7 @@
 
 import functools
 
+
 def standarize_ms(datas, val_index, max=(2^32 - 1)):
     """
     Standarize milliseconds lapsed from Arduino reading.

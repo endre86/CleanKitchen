@@ -1,3 +1,6 @@
 **/__pycache__/**
 **/.vscode/**
-**/data/**/*.csv
+# trash data is put inside this folder,
+# using subfolder for other data
+**/data/*.csv
+
